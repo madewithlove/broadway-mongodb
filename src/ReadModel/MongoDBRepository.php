@@ -4,48 +4,146 @@ namespace Madewithlove\Broadway\MongoDB\ReadModel;
 
 use Broadway\ReadModel\ReadModelInterface;
 use Broadway\ReadModel\RepositoryInterface;
+use Broadway\Serializer\SerializerInterface;
+use MongoDB\Client;
+use MongoDB\Driver\Cursor;
 
 class MongoDBRepository implements RepositoryInterface
 {
+    /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
+
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
+     * @var string
+     */
+    protected $database;
+
+    /**
+     * @var string
+     */
+    protected $collection;
+
+    /**
+     * @param SerializerInterface $serializer
+     * @param Client $client
+     * @param string $database
+     * @param string $collection
+     */
+    public function __construct(SerializerInterface $serializer, Client $client, $database, $collection)
+    {
+        $this->serializer = $serializer;
+        $this->client = $client;
+        $this->database = $database;
+        $this->collection = $collection;
+    }
+
+    /**
+     * @param ReadModelInterface $data
+     *
+     * @return mixed
+     */
     public function save(ReadModelInterface $data)
     {
-        // TODO: Implement save() method.
+        $id = $data->getId();
+
+        $payload = $this->serializer->serialize($data);
+        $payload['id'] = $id;
+
+        $item = $this->find($id);
+
+        if ($item) {
+            $this->newQuery()->replaceOne(['id' => $id], $payload);
+        } else {
+            $this->newQuery()->insertOne($payload);
+        }
     }
 
     /**
      * @param string $id
      *
-     * @return ReadModelInterface|null
+     * @return mixed
      */
     public function find($id)
     {
-        // TODO: Implement find() method.
+        $result = $this->newQuery()->findOne([
+            'id' => $id,
+        ]);
+
+        if (!$result) {
+            return null;
+        }
+
+        return $this->deserialize($result);
     }
 
     /**
      * @param array $fields
      *
-     * @return ReadModelInterface[]
+     * @return mixed
      */
     public function findBy(array $fields)
     {
-        // TODO: Implement findBy() method.
+        return $this->deserializeAll($this->newQuery()->find($fields));
     }
 
     /**
-     * @return ReadModelInterface[]
+     * @return mixed
      */
     public function findAll()
     {
-        // TODO: Implement findAll() method.
+        return $this->findBy([]);
     }
 
     /**
      * @param string $id
+     *
+     * @return mixed
      */
     public function remove($id)
     {
-        // TODO: Implement remove() method.
+        $this->newQuery()->deleteOne([
+            'id' => $id,
+        ]);
     }
 
+    /**
+     * @param $result
+     *
+     * @return array
+     */
+    private function deserialize($result)
+    {
+        return $this->serializer->deserialize($result);
+    }
+
+    /**
+     * @param Cursor $cursor
+     *
+     * @return array
+     */
+    private function deserializeAll(Cursor $cursor)
+    {
+        $items = [];
+
+        foreach ($cursor as $result) {
+            $items[] = $this->deserialize($result);
+        }
+
+        return $items;
+    }
+
+    /**
+     * @return \MongoDB\Collection
+     */
+    private function newQuery()
+    {
+        return $this->client->selectCollection($this->database, $this->collection);
+    }
 }
