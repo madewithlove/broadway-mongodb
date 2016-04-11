@@ -39,8 +39,7 @@ class Factory implements RepositoryFactoryInterface
     {
         return new MongoDBRepository(
             $this->serializer,
-            $this->client,
-            $name,
+            $this->client->selectDatabase($name),
             $class
         );
     }

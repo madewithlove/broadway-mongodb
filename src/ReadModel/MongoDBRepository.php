@@ -5,7 +5,7 @@ namespace Madewithlove\Broadway\MongoDB\ReadModel;
 use Broadway\ReadModel\ReadModelInterface;
 use Broadway\ReadModel\RepositoryInterface;
 use Broadway\Serializer\SerializerInterface;
-use MongoDB\Client;
+use MongoDB\Database;
 use MongoDB\Driver\Cursor;
 
 class MongoDBRepository implements RepositoryInterface
@@ -16,12 +16,7 @@ class MongoDBRepository implements RepositoryInterface
     protected $serializer;
 
     /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
-     * @var string
+     * @var Database
      */
     protected $database;
 
@@ -32,14 +27,12 @@ class MongoDBRepository implements RepositoryInterface
 
     /**
      * @param SerializerInterface $serializer
-     * @param Client $client
-     * @param string $database
+     * @param Database $database
      * @param string $collection
      */
-    public function __construct(SerializerInterface $serializer, Client $client, $database, $collection)
+    public function __construct(SerializerInterface $serializer, Database $database, $collection)
     {
         $this->serializer = $serializer;
-        $this->client = $client;
         $this->database = $database;
         $this->collection = $collection;
     }
@@ -144,6 +137,6 @@ class MongoDBRepository implements RepositoryInterface
      */
     private function newQuery()
     {
-        return $this->client->selectCollection($this->database, $this->collection);
+        return $this->database->selectCollection($this->collection);
     }
 }
