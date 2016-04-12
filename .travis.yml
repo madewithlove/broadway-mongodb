@@ -13,10 +13,21 @@ env:
     - PREFER_LOWEST="--prefer-lowest"
     - PREFER_LOWEST=""
 
+services:
+  - mongodb
+  - mysql
+
+addons:
+  apt:
+    sources:
+    - mongodb-3.0-precise
+    packages:
+    - mongodb-org-server
+
 # Dependencies
 before_install:
+  - pecl install mongodb
   - composer self-update
-  - phpenv config-add travisconfig.ini
 
 install:
   - travis_retry composer update --no-interaction --prefer-source --dev $PREFER_LOWEST
