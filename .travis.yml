@@ -13,12 +13,10 @@ env:
     - PREFER_LOWEST="--prefer-lowest"
     - PREFER_LOWEST=""
 
-before_script:
-    - phpenv config-add travisconfig.ini
-
 # Dependencies
 before_install:
   - composer self-update
+  - phpenv config-add travisconfig.ini
 
 install:
   - travis_retry composer update --no-interaction --prefer-source --dev $PREFER_LOWEST
