@@ -14,15 +14,11 @@
     <filter>
         <whitelist>
             <directory>src</directory>
-            <exclude>
-                <file>src/ServiceProvider.php</file>
-                <directory>src/Facades</directory>
-            </exclude>
         </whitelist>
     </filter>
 
     <testsuites>
-        <testsuite name="Arrounded Test Suite">
+        <testsuite name="Madewithlove Broadway Test Suite">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>

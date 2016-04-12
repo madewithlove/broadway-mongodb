@@ -6,6 +6,8 @@
 [![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/madewithlove/broadway-mongodb.svg?style=flat-square)](https://scrutinizer-ci.com/g/madewithlove/broadway-mongodb/)
 [![Code Coverage](http://img.shields.io/scrutinizer/coverage/g/madewithlove/broadway-mongodb.svg?style=flat-square)](https://scrutinizer-ci.com/g/madewithlove/broadway-mongodb/)
 
+A [MongoDB](https://www.mongodb.org/) driver for [Broadway](https://github.com/qandidate-labs/broadway).
+
 ## Install
 
 Via Composer
@@ -15,8 +17,6 @@ $ composer require madewithlove/broadway-mongodb
 ```
 
 ## Usage
-
-How the module works
 
 ## Testing
 

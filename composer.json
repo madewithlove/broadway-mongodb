@@ -34,10 +34,7 @@
     "autoload-dev": {
         "psr-4": {
             "Madewithlove\\Broadway\\MongoDB\\": "tests"
-        },
-        "files": [
-            "tests/helpers.php"
-        ]
+        }
     },
     "scripts": {
         "test": "phpunit",
