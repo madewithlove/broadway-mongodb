@@ -4,7 +4,6 @@ namespace Madewithlove\Broadway\MongoDB\ReadModel;
 
 use Madewithlove\Broadway\MongoDB\TestCase;
 use MongoDB\Client;
-use MongoDB\Driver\Manager;
 
 class MongoDBClientFactoryTest extends TestCase
 {
