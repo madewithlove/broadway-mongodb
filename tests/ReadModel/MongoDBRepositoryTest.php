@@ -5,6 +5,7 @@ namespace Madewithlove\Broadway\MongoDB\ReadModel;
 use Broadway\Serializer\SimpleInterfaceSerializer;
 use Madewithlove\Broadway\MongoDB\Dummies\Object;
 use Madewithlove\Broadway\MongoDB\TestCase;
+use Madewithlove\Broadway\MongoDB\MongoDBClientFactory;
 
 class MongoDBRepositoryTest extends TestCase
 {

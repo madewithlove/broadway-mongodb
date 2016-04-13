@@ -1,8 +1,7 @@
 <?php
 
-namespace Madewithlove\Broadway\MongoDB\ReadModel;
+namespace Madewithlove\Broadway\MongoDB;
 
-use Madewithlove\Broadway\MongoDB\TestCase;
 use MongoDB\Client;
 
 class MongoDBClientFactoryTest extends TestCase

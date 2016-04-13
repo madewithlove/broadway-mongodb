@@ -1,6 +1,6 @@
 <?php
 
-namespace Madewithlove\Broadway\MongoDB\ReadModel;
+namespace Madewithlove\Broadway\MongoDB;
 
 use MongoDB\Client;
 
