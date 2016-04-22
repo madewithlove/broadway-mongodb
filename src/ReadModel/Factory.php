@@ -3,9 +3,8 @@
 namespace Madewithlove\Broadway\MongoDB\ReadModel;
 
 use Broadway\ReadModel\RepositoryFactoryInterface;
-use Broadway\ReadModel\RepositoryInterface;
 use Broadway\Serializer\SerializerInterface;
-use MongoDB\Client;
+use MongoDB\Database;
 
 class Factory implements RepositoryFactoryInterface
 {
@@ -15,32 +14,32 @@ class Factory implements RepositoryFactoryInterface
     protected $serializer;
 
     /**
-     * @var Client
+     * @var Database
      */
-    protected $client;
+    protected $connection;
 
     /**
      * @param SerializerInterface $serializer
-     * @param Client $client
+     * @param Database $connection
      */
-    public function __construct(SerializerInterface $serializer, Client $client)
+    public function __construct(SerializerInterface $serializer, Database $connection)
     {
         $this->serializer = $serializer;
-        $this->client = $client;
+        $this->connection = $connection;
     }
 
     /**
      * @param string $name
      * @param string $class
      *
-     * @return RepositoryInterface
+     * @return mixed
      */
-    public function create($name, $class)
+    public function create($name, $class = MongoDBRepository::class)
     {
-        return new MongoDBRepository(
+        return new $class(
             $this->serializer,
-            $this->client->selectDatabase($name),
-            $class
+            $this->connection,
+            $name
         );
     }
 }

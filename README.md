@@ -104,11 +104,15 @@ The easiest way to create a repository for your model is by using the `ReadModel
 
  $factory = new ReadModel\Factory(
     new SimpleInterfaceSerializer(),
-    $client
+    $client->selectDatabase('testing')
 );
 
 // 'my_projection' is the collection that will be used.
-$repository = $factory->create('testing', 'my_projection');
+$repository = $factory->create('my_projector');
+
+// If you have a custom read model repository you can use the factory to create your own instances:
+$repository = $factory->create('my_projector', MyReadModelRepository::class);
+
  ```
 
 ## Testing

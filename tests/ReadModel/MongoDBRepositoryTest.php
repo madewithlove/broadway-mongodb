@@ -23,9 +23,9 @@ class MongoDBRepositoryTest extends TestCase
 
         $client->dropDatabase($database);
 
-        $factory = new Factory($serializer, $client);
+        $factory = new Factory($serializer, $client->selectDatabase($database));
 
-        return $factory->create($database, 'dummies');
+        return $factory->create('dummies');
     }
 
     /**
